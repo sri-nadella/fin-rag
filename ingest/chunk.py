@@ -23,11 +23,32 @@ def chunk_fixed(text, size=500, overlap=50):
             break
     return chunks
 
+def chunk_recursive(text, size=500, overlap=50):
+    """Pack whole lines into chunks of up to `size` tokens.
+    Lines longer than `size` fall back to fixed-size splitting."""
+    chunks, current, current_tokens = [], [], 0
+    for line in text.split("\n"):
+        t = count_tokens(line)
+        if t > size:
+            if current:
+                chunks.append("\n".join(current))
+                current, current_tokens = [], 0
+            chunks.extend(chunk_fixed(line, size, overlap))
+            continue
+        if current_tokens + t > size and current:
+            chunks.append("\n".join(current))
+            current, current_tokens = [current[-1]], count_tokens(current[-1])
+        current.append(line)
+        current_tokens += t
+    if current:
+        chunks.append("\n".join(current))
+    return chunks
+
 
 def build_chunks(sections, company, ticker, year, strategy="fixed"):
     out = []
     for s in sections:
-        pieces = chunk_fixed(s["text"])
+        pieces = chunk_recursive(s["text"]) if strategy == "recursive" else chunk_fixed(s["text"])
         for n, piece in enumerate(pieces):
             out.append(
                 {
@@ -50,12 +71,10 @@ if __name__ == "__main__":
         json.loads(line)
         for line in Path("data/processed/AAPL_sections.jsonl").read_text(encoding="utf-8").splitlines()
     ]
-    chunks = build_chunks(sections, "Apple Inc.", "AAPL", 2025)
-    out = Path("data/processed/AAPL_chunks_fixed.jsonl")
-    with out.open("w", encoding="utf-8") as f:
-        for c in chunks:
-            f.write(json.dumps(c) + "\n")
-    print("Total chunks:", len(chunks))
-    for c in chunks[:3]:
-        print("---", c["chunk_id"], c["token_count"], "tokens")
-        print(c["text"][:300])
+    for strategy in ("fixed", "recursive"):
+        chunks = build_chunks(sections, "Apple Inc.", "AAPL", 2025, strategy)
+        out = Path(f"data/processed/AAPL_chunks_{strategy}.jsonl")
+        with out.open("w", encoding="utf-8") as f:
+            for c in chunks:
+                f.write(json.dumps(c) + "\n")
+        print(strategy, "-> total chunks:", len(chunks))
