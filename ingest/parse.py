@@ -26,7 +26,8 @@ def split_sections(lines):
         end = starts[n + 1][0] if n + 1 < len(starts) else len(lines)
         body = "\n".join(lines[i + 1 : end])
         sections.append({"item": item, "title": title, "text": body})
-    return sections
+        # table-of-contents entries have no title text; keep only real sections
+    return [s for s in sections if s["title"]]
 
 
 if __name__ == "__main__":
