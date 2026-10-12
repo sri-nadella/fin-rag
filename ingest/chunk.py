@@ -44,11 +44,23 @@ def chunk_recursive(text, size=500, overlap=50):
         chunks.append("\n".join(current))
     return chunks
 
+def chunk_section_aware(text, header, size=500, overlap=50):
+    """Recursive chunking, but every chunk starts with a context header."""
+    budget = size - count_tokens(header) - 2
+    pieces = chunk_recursive(text, size=budget, overlap=overlap)
+    return [f"{header}\n{p}" for p in pieces]
+
 
 def build_chunks(sections, company, ticker, year, strategy="fixed"):
     out = []
     for s in sections:
-        pieces = chunk_recursive(s["text"]) if strategy == "recursive" else chunk_fixed(s["text"])
+        if strategy == "section":
+            header = f"{company} {year} 10-K | Item {s['item']}: {s['title']}"
+            pieces = chunk_section_aware(s["text"], header)
+        elif strategy == "recursive":
+            pieces = chunk_recursive(s["text"])
+        else:
+            pieces = chunk_fixed(s["text"])
         for n, piece in enumerate(pieces):
             out.append(
                 {
@@ -71,7 +83,7 @@ if __name__ == "__main__":
         json.loads(line)
         for line in Path("data/processed/AAPL_sections.jsonl").read_text(encoding="utf-8").splitlines()
     ]
-    for strategy in ("fixed", "recursive"):
+    for strategy in ("fixed", "recursive", "section"):
         chunks = build_chunks(sections, "Apple Inc.", "AAPL", 2025, strategy)
         out = Path(f"data/processed/AAPL_chunks_{strategy}.jsonl")
         with out.open("w", encoding="utf-8") as f:
