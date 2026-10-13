@@ -5,6 +5,7 @@ from pathlib import Path
 sys.path.insert(0, ".")
 from retrieval.dense import search as dense_search
 from retrieval.hybrid import bm25_search, hybrid_search
+from retrieval.rerank import rerank_search
 
 questions = [
     json.loads(l)
@@ -16,6 +17,7 @@ methods = {
     "dense": lambda q, s: [h.payload for h in dense_search(q, s, k=5)],
     "bm25": lambda q, s: bm25_search(q, s, k=5),
     "hybrid": lambda q, s: hybrid_search(q, s, k=5),
+    "rerank": lambda q, s: rerank_search(q, s, k=5),
 }
 
 print(f"{len(questions)} questions")
