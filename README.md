@@ -26,37 +26,39 @@ SEC EDGAR 10-K (HTML)
 
 ## Results (preliminary)
 
-Corpus: Apple Inc. FY2025 10-K. Golden set: 20 questions (18 are single-number lookups). A retrieved chunk counts as a hit if it contains the known answer string.
+Corpus: Apple Inc. FY2025 10-K. Golden set: 46 questions (36 factual/numeric lookups, 10 prose questions from Risk Factors). A retrieved chunk counts as a hit if it contains the known answer string.
 
 | Chunking | Method | R@1 | R@3 | R@5 | MRR |
 |---|---|---|---|---|---|
-| Fixed | dense | 0.60 | 0.95 | 0.95 | 0.76 |
-| Fixed | bm25 | 0.80 | 0.85 | 0.95 | 0.85 |
-| Fixed | hybrid | 0.75 | 1.00 | 1.00 | 0.87 |
-| Fixed | hybrid + rerank | 0.70 | 0.95 | 1.00 | 0.80 |
-| Recursive | dense | 0.40 | 0.85 | 0.95 | 0.62 |
-| Recursive | bm25 | 0.65 | 0.95 | 0.95 | 0.79 |
-| Recursive | hybrid | 0.60 | 1.00 | 1.00 | 0.77 |
-| Recursive | hybrid + rerank | 0.65 | 0.95 | 0.95 | 0.78 |
-| Section-aware | dense | 0.80 | 0.90 | 0.95 | 0.85 |
-| Section-aware | bm25 | 0.65 | 0.85 | 0.95 | 0.76 |
-| Section-aware | hybrid | 0.75 | 0.95 | 0.95 | 0.85 |
-| **Section-aware** | **hybrid + rerank** | **0.90** | **1.00** | **1.00** | **0.94** |
+| Fixed | dense | 0.67 | 0.85 | 0.89 | 0.76 |
+| Fixed | bm25 | 0.63 | 0.80 | 0.91 | 0.74 |
+| Fixed | hybrid | 0.70 | 0.91 | 0.93 | 0.80 |
+| Fixed | hybrid + rerank | 0.57 | 0.83 | 0.96 | 0.70 |
+| Recursive | dense | 0.52 | 0.80 | 0.87 | 0.66 |
+| Recursive | bm25 | 0.61 | 0.85 | 0.89 | 0.72 |
+| Recursive | hybrid | 0.57 | 0.91 | 0.93 | 0.72 |
+| Recursive | hybrid + rerank | 0.61 | 0.89 | 0.96 | 0.75 |
+| Section-aware | dense | 0.70 | 0.89 | 0.98 | 0.80 |
+| Section-aware | bm25 | 0.61 | 0.80 | 0.91 | 0.72 |
+| Section-aware | hybrid | 0.72 | 0.93 | 0.93 | 0.82 |
+| **Section-aware** | **hybrid + rerank** | **0.89** | **1.00** | **1.00** | **0.94** |
 
-**Headline:** baseline (fixed + dense) R@1 0.60 -> section-aware + hybrid + rerank R@1 0.90.
+**Headline:** baseline (fixed + dense) R@1 0.67, MRR 0.76 -> section-aware + hybrid + rerank R@1 0.89, MRR 0.94 on 46 questions.
 
 ## Findings
 
 - **Fixed chunking splits table rows.** A fixed cut separated the `Total net sales | 416,161` row across two chunks.
-- **Dense search misses exact numbers in repeated tables.** "Weighted-average diluted shares" never reached the top 5 with dense retrieval, though two chunks contained the number. Hybrid retrieval fixed it for fixed and recursive chunks.
-- **Reranking helped only section-aware chunks** (R@1 0.75 -> 0.90), and was flat or slightly negative on the others. Hypothesis: the header and whole rows give the cross-encoder coherent text to judge. Not yet tested.
-- **BM25 did not help section-aware chunks.** The shared header adds common words that dilute keyword scoring.
+- **Dense search misses exact numbers in repeated tables.** "Weighted-average diluted shares" never reached the top 5 with dense retrieval, though two chunks contained the number.
+- **Reranking helped only section-aware chunks** (R@1 0.72 -> 0.89) and hurt R@1 on fixed chunks (0.70 -> 0.57). Hypothesis: headers and whole rows give the cross-encoder coherent text to judge. Not yet tested.
+- **Section-aware chunking was the best or tied-best chunking** for dense, hybrid and BM25 on this set.
 
 ## Limitations
 
 - One company, one filing, 20 questions. One question equals 0.05, so gaps of 0.05-0.10 are noise.
 - Most questions are number lookups, which favor keyword matching. Prose questions are being added.
 - Answer strings were chosen from chunks the system had already produced, so the test is friendlier than a blind one.
+- The section header is part of the indexed text, and questions mention "Apple", so section-aware scores may be inflated. An ablation that strips the header before reranking is planned.
+- Ten Risk Factors questions were drafted from chunks shown during development, so they are not fully blind.
 
 ## Quickstart
 
