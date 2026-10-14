@@ -18,3 +18,29 @@
 {"question": "What was Apple's other income or expense, net, in 2025?", "answer_contains": "( 321 )"}
 {"question": "How did iPhone net sales change in 2025 compared to 2024?", "answer_contains": "iPhone net sales increased during 2025"}
 {"question": "What drove Americas net sales growth in 2025?", "answer_contains": "Americas net sales increased during 2025"}
+{"question": "What were Apple's total net sales in fiscal 2024?", "answer_contains": "391,035"}
+{"question": "How much net income did Apple report for 2024?", "answer_contains": "93,736"}
+{"question": "What was diluted EPS in 2024?", "answer_contains": "6.08"}
+{"question": "What was basic EPS in 2024?", "answer_contains": "6.11"}
+{"question": "What was R&D spending in 2024?", "answer_contains": "31,370"}
+{"question": "What was Apple's operating income in 2024?", "answer_contains": "123,216"}
+{"question": "What were total operating expenses in 2024?", "answer_contains": "57,467"}
+{"question": "What were net sales in Rest of Asia Pacific in 2025?", "answer_contains": "33,696"}
+{"question": "How many weighted-average basic shares were outstanding in 2025?", "answer_contains": "14,948,500"}
+{"question": "What were Japan net sales in 2024?", "answer_contains": "25,052"}
+{"question": "What types of products does Apple design and sell?", "answer_contains": "smartphones, personal computers, tablets, wearables and accessories"}
+{"question": "What kind of digital content do Apple's platforms offer?", "answer_contains": "books, music, video, games and podcasts"}
+{"question": "What pressures do Apple's markets put on gross margins?", "answer_contains": "downward pressure on gross margins"}
+{"question": "What characterizes the pace of product change in Apple's markets?", "answer_contains": "short product life cycles"}
+{"question": "Why did iPad net sales change, and what offset it?", "answer_contains": "lower net sales of iPad Pro"}
+{"question": "Which products drove Americas net sales growth?", "answer_contains": "higher net sales of iPhone and Services"}
+{"question": "What risk does Apple face from needing to license technology owned by other companies?", "answer_contains": "must be licensed from third parties"}
+{"question": "How could new AI technologies increase Apple's exposure to intellectual property claims?", "answer_contains": "machine learning and artificial intelligence"}
+{"question": "What factors can push Apple's gross margins down?", "answer_contains": "compressed product life cycles"}
+{"question": "What does Apple say about how gross margins differ across its business?", "answer_contains": "vary significantly across its products, services, geographic segments and distribution channels"}
+{"question": "What could happen to the value of Apple's cash and marketable securities?", "answer_contains": "may fluctuate substantially"}
+{"question": "Has Apple had big losses on its cash and securities investments so far?", "answer_contains": "has not realized significant losses"}
+{"question": "What do resellers offer customers to help them buy devices, and what is the risk?", "answer_contains": "financing, installment payment plans or subsidies"}
+{"question": "Why might Apple's spending on reseller programs not pay off?", "answer_contains": "not assuring return or incremental sales"}
+{"question": "What could happen to Apple's suppliers and partners in a weak economy?", "answer_contains": "inability to obtain credit to finance business operations"}
+{"question": "Which kinds of companies does Apple say are affected by economic uncertainty?", "answer_contains": "suppliers, contract manufacturers, logistics providers, distributors"}
