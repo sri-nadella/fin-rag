@@ -24,7 +24,7 @@ start = time.time()
 
 for q in golden:
     text, chunks = answer(q["question"])
-    cites = {int(n) for n in re.findall(r"\[(\d+)\]", text)}
+    cites = {int(n) for grp in re.findall(r"\[([\d,\s]+)\]", text) for n in re.findall(r"\d+", grp)}
     rows.append(
         {
             "type": "answerable",
