@@ -31,7 +31,7 @@ for q in golden:
             "question": q["question"],
             "expected": q["answer_contains"],
             "answer": text,
-            "correct": q["answer_contains"].lower() in text.lower(),
+            "correct": norm(q["answer_contains"]) in norm(text),
             "cited": bool(cites),
             "valid_cites": bool(cites) and all(1 <= n <= len(chunks) for n in cites),
             "refused": "i don't know" in text.lower(),

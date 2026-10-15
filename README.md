@@ -52,6 +52,17 @@ Corpus: Apple Inc. FY2025 10-K. Golden set: 46 questions (36 factual/numeric loo
 - **Reranking helped only section-aware chunks** (R@1 0.72 -> 0.89) and hurt R@1 on fixed chunks (0.70 -> 0.57). Hypothesis: headers and whole rows give the cross-encoder coherent text to judge. Not yet tested.
 - **Section-aware chunking was the best or tied-best chunking** for dense, hybrid and BM25 on this set.
 
+## Generation results (46 answerable + 8 unanswerable questions)
+
+| Model | Strict match | Normalised match | Cited | Valid citations | Wrongly refused | Correct refusals |
+|---|---|---|---|---|---|---|
+| llama3.2:3b, base prompt | 0.67 | n/a | 1.00 | 0.98 | 0.00 | 8/8 |
+| qwen2.5:7b, table-reading rule | 0.83 | **0.93** | 1.00 | 1.00 | 0.00 | 8/8 |
+
+Retrieval was solid; the 3B model's main failure was misreading table columns and units (segment vs total rows, percent vs dollars, dropped thousands). A targeted prompt rule plus the 7B model fixed most of these.
+
+Normalised match ignores spaces, commas, `$` and parentheses. It is still a string check, so it can pass an answer that adds a wrong derived figure (for example the deferred-revenue answer), and it cannot judge paraphrases. Run time for 54 questions on CPU: about 53 min (3B) vs 193 min (7B).
+
 ## Limitations
 
 - One company, one filing, 20 questions. One question equals 0.05, so gaps of 0.05-0.10 are noise.
