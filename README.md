@@ -1,6 +1,6 @@
 # fin-rag: Retrieval-Augmented QA over SEC 10-K Filings
 
-"C/Users/spoor/Downloads/demo.gif"
+![demo](docs/demo.gif)
 
 A question-answering system for company financial reports. It retrieves the most relevant passages from a 10-K filing and (soon) generates cited answers from them. The project focuses on **measuring** retrieval quality: three chunking strategies and four retrieval methods are compared on a golden question set.
 
