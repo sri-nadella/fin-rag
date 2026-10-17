@@ -22,13 +22,13 @@ Question: {question}
 Answer:"""
 
 
-def answer(question, k=4):
+def answer(question, k=4, model=None):
     chunks = rerank_search(question, STRATEGY, k=k)
     context = "\n\n".join(
         f"[{i}] ({c['section_title']}) {c['text']}" for i, c in enumerate(chunks, start=1)
     )
     resp = ollama.chat(
-        model=MODEL,
+        model=model or MODEL,
         messages=[{"role": "user", "content": PROMPT.format(context=context, question=question)}],
         options={"temperature": 0},
     )
