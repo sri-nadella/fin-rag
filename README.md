@@ -88,9 +88,11 @@ python eval/run_eval.py
 
 ## Roadmap
 
-- [ ] Grow golden set to 40+ questions, including prose and blind-written ones
-- [ ] LLM generation with inline citations and "I don't know" behavior
-- [ ] Faithfulness and answer-relevance evaluation
-- [ ] FastAPI backend and Streamlit UI
-- [ ] Docker and GitHub Actions running the eval on every PR
+## Roadmap
+
+- [x] Golden set of 46 questions, including prose questions
+- [x] LLM generation with inline citations and "I don't know" behavior
+- [x] FastAPI backend and Streamlit UI
+- [ ] Faithfulness evaluation with an LLM judge
+- [ ] Docker
 - [ ] More companies and years
