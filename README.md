@@ -84,6 +84,14 @@ python ingest/parse.py
 python ingest/chunk.py
 python retrieval/dense.py index
 python eval/run_eval.py
+
+# Local LLMs (free): install Ollama from ollama.com, then
+ollama pull llama3.2:3b
+ollama pull qwen2.5:7b
+
+# Run the app (two terminals)
+uvicorn api.main:app --reload
+streamlit run ui/app.py
 ```
 
 ## Roadmap
